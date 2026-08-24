@@ -6,16 +6,33 @@ export interface AnimatedItem<T> {
   exiting: boolean;
 }
 
+interface Keyed {
+  key: string;
+  quantity?: number;
+}
+
 /** Keeps a removed item mounted (flagged `exiting: true`) for `exitMs` after it drops out
  *  of `items`, so the caller can play a collapse/fade-out transition before the DOM node
  *  actually disappears — without pulling in a full animation-presence library. Items that
- *  reappear before their exit timer fires are seamlessly resurrected. */
-export function useAnimatedItems<T extends { key: string }>(items: T[], exitMs = 220): AnimatedItem<T>[] {
-  const [display, setDisplay] = useState<AnimatedItem<T>[]>(() => items.map((item) => ({ key: item.key, item, exiting: false })));
+ *  reappear before their exit timer fires are seamlessly resurrected.
+ *
+ *  `items` is expected to be a freshly-derived array on every render (as selectors.ts
+ *  produces), so the effect keys off a content signature rather than array identity —
+ *  otherwise a new array reference with identical contents would re-trigger the effect
+ *  every render and loop forever. */
+export function useAnimatedItems<T extends Keyed>(items: T[], exitMs = 220): AnimatedItem<T>[] {
+  const [display, setDisplay] = useState<AnimatedItem<T>[]>(() =>
+    items.map((item) => ({ key: item.key, item, exiting: false })),
+  );
   const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>());
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
+
+  const signature = items.map((item) => `${item.key}:${item.quantity ?? ''}`).join(',');
 
   useEffect(() => {
-    const nextByKey = new Map(items.map((item) => [item.key, item]));
+    const currentItems = itemsRef.current;
+    const nextByKey = new Map(currentItems.map((item) => [item.key, item]));
 
     setDisplay((prevDisplay) => {
       const prevKeys = new Set(prevDisplay.map((entry) => entry.key));
@@ -42,13 +59,15 @@ export function useAnimatedItems<T extends { key: string }>(items: T[], exitMs =
         }
       }
 
-      for (const item of items) {
+      for (const item of currentItems) {
         if (!prevKeys.has(item.key)) merged.push({ key: item.key, item, exiting: false });
       }
 
       return merged;
     });
-  }, [items, exitMs]);
+    // Deliberately keyed on the content signature, not `items`/`exitMs` — see doc comment.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signature]);
 
   useEffect(() => {
     const timersMap = timers.current;
