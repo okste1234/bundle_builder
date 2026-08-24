@@ -69,9 +69,9 @@ export function AccordionStep({
             </span>
           )}
           <img
-            src={isOpen ? '/assets/icon-chevron-up.svg' : '/assets/icon-chevron-down.svg'}
+            src="/assets/icon-chevron-down.svg"
             alt=""
-            className="size-[12px]"
+            className={`size-[12px] transition-transform ${isOpen ? 'rotate-180' : ''}`}
           />
         </span>
       </button>

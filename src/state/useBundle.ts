@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { BundleContext, type BundleContextValue } from './BundleContext';
+import { BundleContext, type BundleContextValue } from './bundleContextDefinition';
 
 export function useBundle(): BundleContextValue {
   const ctx = useContext(BundleContext);

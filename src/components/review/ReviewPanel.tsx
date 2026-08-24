@@ -50,10 +50,16 @@ export function ReviewPanel() {
         {(['camera', 'sensor', 'accessory'] as const).map((category) => {
           const items = getLineItemsForCategory(state, category);
           if (items.length === 0) return null;
+
+          const productLineCounts = items.reduce<Record<string, number>>((counts, item) => {
+            counts[item.productId] = (counts[item.productId] ?? 0) + 1;
+            return counts;
+          }, {});
+
           return (
             <ReviewSection key={category} label={CATEGORY_LABELS[category]}>
               {items.map((item) => (
-                <ReviewItem key={item.key} item={item} />
+                <ReviewItem key={item.key} item={item} showVariantLabel={productLineCounts[item.productId] > 1} />
               ))}
             </ReviewSection>
           );

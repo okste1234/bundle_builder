@@ -5,11 +5,15 @@ import { useBundle } from '../../state/useBundle';
 
 interface ReviewItemProps {
   item: ReviewLineItem;
+  /** Only append the variant label (e.g. "White") when this product has more than one
+   *  simultaneously-selected variant in the review — otherwise the base product name
+   *  alone matches the Figma design exactly. */
+  showVariantLabel?: boolean;
 }
 
-export function ReviewItem({ item }: ReviewItemProps) {
+export function ReviewItem({ item, showVariantLabel = false }: ReviewItemProps) {
   const { adjustQuantity } = useBundle();
-  const label = item.variantLabel ? `${item.name} (${item.variantLabel})` : item.name;
+  const label = showVariantLabel && item.variantLabel ? `${item.name} (${item.variantLabel})` : item.name;
 
   return (
     <div className="flex w-full items-center gap-[16px]">
@@ -17,7 +21,7 @@ export function ReviewItem({ item }: ReviewItemProps) {
         <div className="size-[41px] shrink-0 overflow-hidden rounded-[5px] bg-white">
           <img src={item.image} alt="" className="size-full object-cover" />
         </div>
-        <p className="min-w-0 flex-1 truncate text-[14px] font-medium leading-[16px] tracking-[0.07px] text-ink">
+        <p className="line-clamp-2 min-w-0 flex-1 text-[14px] font-medium leading-[16px] tracking-[0.07px] text-ink">
           {label}
         </p>
         <QuantityStepper
