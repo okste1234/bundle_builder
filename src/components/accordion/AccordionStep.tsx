@@ -54,13 +54,15 @@ export function AccordionStep({
         aria-expanded={isOpen}
         aria-controls={panelId}
         onClick={onToggle}
-        className={`flex w-full items-center gap-[3px] px-[15px] py-[20px] text-left ${
+        className={`flex w-full flex-wrap items-center gap-x-[3px] gap-y-[6px] px-[15px] py-[20px] text-left ${
           isOpen ? 'border-t-[0.5px] border-ink-soft' : 'border-y-[0.5px] border-ink-soft'
         }`}
       >
         <span className="flex min-w-0 flex-1 items-center gap-[8px]">
-          <img src={icon} alt="" className="size-[26px] shrink-0" />
-          <span className="min-w-0 flex-1 truncate text-[22px] font-semibold leading-none text-ink">{title}</span>
+          <img src={icon} alt="" className="size-[22px] shrink-0 sm:size-[26px]" />
+          <span className="min-w-0 flex-1 text-[18px] font-semibold leading-tight text-ink sm:text-[22px] sm:leading-none">
+            {title}
+          </span>
         </span>
         <span className="flex shrink-0 items-center gap-[4px]">
           {isOpen && typeof selectedCount === 'number' && (
@@ -82,7 +84,7 @@ export function AccordionStep({
           <button
             type="button"
             onClick={onNext}
-            className="flex h-[39px] shrink-0 items-center justify-center self-start rounded-[7px] border border-brand px-[24px] py-[5px] text-[18px] font-semibold leading-[24px] text-brand transition-colors hover:bg-brand/5"
+            className="flex h-[39px] shrink-0 items-center justify-center self-center rounded-[7px] border border-brand px-[24px] py-[5px] text-[18px] font-semibold leading-[24px] text-brand transition-colors hover:bg-brand/5"
           >
             {nextLabel}
           </button>

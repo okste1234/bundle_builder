@@ -44,7 +44,9 @@ export function QuantityStepper({
         onClick={onDecrement}
         disabled={atMin}
       >
-        <img src="/assets/icon-minus.svg" alt="" className="h-[9.6px] w-[8px]" />
+        <span className="flex h-[9.6px] w-[8px] items-center justify-center">
+          <img src="/assets/icon-minus.svg" alt="" className="h-[1.6px] w-[8px]" />
+        </span>
       </button>
       <span className="min-w-[8px] text-center text-[16px] font-medium leading-[20px] text-ink tabular-nums">
         {quantity}

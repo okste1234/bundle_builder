@@ -66,7 +66,7 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
             label={`${product.name}${hasVariants ? ` ${activeVariantId}` : ''}`}
           />
           <div className="flex flex-1 items-end justify-end">
-            <Price current={product.price} compareAt={product.compareAtPrice} size="md" emphasis="gray" />
+            <Price current={product.price} compareAt={product.compareAtPrice} freeWhenZero size="md" emphasis="gray" />
           </div>
         </div>
       </div>
