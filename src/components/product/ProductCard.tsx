@@ -19,12 +19,17 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
     ? selection?.selectedVariantId ?? product.variants![0].id
     : DEFAULT_VARIANT_KEY;
   const quantity = selection?.quantities[activeVariantId] ?? 0;
-  const isSelected = quantity > 0;
+
+  // The card is "selected" (purple border) if the product is in the bundle at all — i.e.
+  // ANY variant has qty > 0 — not just the variant currently showing on the card. This
+  // keeps e.g. a White ×1 selection visibly reflected even while the user is previewing
+  // Grey (qty 0) on the same card, since White ×1 still lives in the review panel.
+  const isProductInBundle = Object.values(selection?.quantities ?? {}).some((qty) => qty > 0);
 
   return (
     <div
       className={`flex items-center overflow-hidden rounded-[10px] bg-white p-[11px] ${
-        isSelected ? 'gap-[19px] border-2 border-[rgba(78,47,210,0.7)]' : 'gap-[13px] border-2 border-transparent'
+        isProductInBundle ? 'gap-[19px] border-2 border-[rgba(78,47,210,0.7)]' : 'gap-[13px] border-2 border-transparent'
       }`}
     >
       <div className="relative h-[137px] w-[101px] shrink-0 overflow-hidden rounded-[5px] bg-white">
@@ -57,7 +62,7 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
           )}
         </div>
 
-        <div className={`flex w-full items-end ${isSelected ? 'gap-[10px]' : 'gap-[46px]'}`}>
+        <div className={`flex w-full items-end ${isProductInBundle ? 'gap-[10px]' : 'gap-[46px]'}`}>
           <QuantityStepper
             quantity={quantity}
             onIncrement={onIncrement}
