@@ -1,0 +1,22 @@
+[
+  {
+    "id": "wyze-sense-motion-sensor",
+    "category": "sensor",
+    "name": "Wyze Sense Motion Sensor",
+    "description": "Detects movement and alerts you the moment someone enters a room.",
+    "learnMoreHref": "#",
+    "image": "/assets/wyze-sense-motion-sensor-photo.png",
+    "price": 29.99
+  },
+  {
+    "id": "wyze-sense-hub",
+    "category": "sensor",
+    "name": "Wyze Sense Hub (Required)",
+    "description": "Connects every sensor in your system. Required for sensor coverage.",
+    "learnMoreHref": "#",
+    "image": "/assets/wyze-sense-hub-photo.png",
+    "price": 0,
+    "compareAtPrice": 29.92,
+    "required": true
+  }
+]

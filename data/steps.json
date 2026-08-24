@@ -1,0 +1,34 @@
+[
+  {
+    "id": "cameras",
+    "stepNumber": 1,
+    "title": "Choose your cameras",
+    "icon": "/assets/icon-camera-livestream.svg",
+    "category": "camera",
+    "nextLabel": "Next: Choose your plan"
+  },
+  {
+    "id": "plan",
+    "stepNumber": 2,
+    "title": "Choose your plan",
+    "icon": "/assets/icon-plan-shield-hms.svg",
+    "category": "plan",
+    "nextLabel": "Next: Choose your sensors"
+  },
+  {
+    "id": "sensors",
+    "stepNumber": 3,
+    "title": "Choose your sensors",
+    "icon": "/assets/icon-sensors.svg",
+    "category": "sensor",
+    "nextLabel": "Next: Add extra protection"
+  },
+  {
+    "id": "extra",
+    "stepNumber": 4,
+    "title": "Add extra protection",
+    "icon": "/assets/icon-extra-protection.svg",
+    "category": "accessory",
+    "nextLabel": "Done"
+  }
+]

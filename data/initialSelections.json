@@ -1,0 +1,14 @@
+{
+  "openStepId": "cameras",
+  "planId": "cam-unlimited",
+  "products": {
+    "wyze-cam-v4": { "selectedVariantId": "white", "quantities": { "white": 1 } },
+    "wyze-cam-pan-v3": { "selectedVariantId": "white", "quantities": { "white": 2 } },
+    "wyze-cam-floodlight-v2": { "selectedVariantId": "white", "quantities": {} },
+    "wyze-duo-cam-doorbell": { "selectedVariantId": null, "quantities": {} },
+    "wyze-battery-cam-pro": { "selectedVariantId": "white", "quantities": {} },
+    "wyze-sense-motion-sensor": { "selectedVariantId": null, "quantities": { "default": 2 } },
+    "wyze-sense-hub": { "selectedVariantId": null, "quantities": { "default": 1 } },
+    "wyze-microsd-card-256gb": { "selectedVariantId": null, "quantities": { "default": 2 } }
+  }
+}

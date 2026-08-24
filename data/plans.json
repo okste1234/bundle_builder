@@ -1,0 +1,18 @@
+[
+  {
+    "id": "no-plan",
+    "name": "No monthly plan",
+    "description": "Local storage only. Upgrade any time from your account.",
+    "icon": "/assets/icon-plan-shield-hms.svg",
+    "price": 0
+  },
+  {
+    "id": "cam-unlimited",
+    "name": "Cam Unlimited",
+    "nameAccent": "Unlimited",
+    "description": "Unlimited cloud recording for every camera on your account.",
+    "icon": "/assets/icon-cam-unlimited-shield.svg",
+    "price": 9.99,
+    "compareAtPrice": 12.99
+  }
+]
