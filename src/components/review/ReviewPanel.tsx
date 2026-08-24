@@ -97,10 +97,13 @@ export function ReviewPanel() {
             <button
               type="button"
               onClick={handleCheckout}
-              disabled={isBundleEmpty || preparingCheckout}
+              disabled={isBundleEmpty}
               aria-disabled={isBundleEmpty || preparingCheckout}
+              aria-busy={preparingCheckout}
               title={isBundleEmpty ? 'Add at least one product to your bundle to check out.' : undefined}
-              className="flex w-full items-center justify-center rounded-[4px] bg-brand px-[16px] py-[13px] text-[17px] font-bold text-white transition-[opacity,transform] duration-150 hover:enabled:opacity-90 active:enabled:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+              className={`flex w-full items-center justify-center rounded-[4px] bg-brand px-[16px] py-[13px] text-[17px] font-bold text-white transition-[opacity,transform] duration-150 hover:enabled:opacity-90 active:enabled:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 ${
+                preparingCheckout ? 'pointer-events-none opacity-80' : ''
+              }`}
             >
               {preparingCheckout ? 'Preparing…' : 'Checkout'}
             </button>
