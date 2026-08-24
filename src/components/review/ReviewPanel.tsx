@@ -39,7 +39,7 @@ export function ReviewPanel() {
       aria-label="Your security system review"
       className="flex w-full flex-col items-start gap-[10px] rounded-[10px] bg-surface-tint px-[20px] pb-[31px] pt-[20px] lg:sticky lg:top-8"
     >
-      <p className="w-full text-center text-[10px] font-medium uppercase leading-none tracking-[1.6px] text-label">
+      <p className="w-full text-left text-[12px] font-medium uppercase leading-none tracking-[1.6px] text-label">
         Review
       </p>
       <div className="flex w-full flex-col gap-[5px] tracking-[0.6px]">

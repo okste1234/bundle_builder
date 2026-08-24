@@ -70,10 +70,13 @@ export function AccordionStep({
               {selectedCount} selected
             </span>
           )}
+          {/* This exported asset is Figma's base "12/carrot-up" shape (unrotated = up).
+              Figma's own "12/carrot-down" instance is the same shape with rotate-180
+              applied — so collapsed (down) gets the rotation here, not open (up). */}
           <img
             src="/assets/icon-chevron-down.svg"
             alt=""
-            className={`size-[12px] transition-transform ${isOpen ? 'rotate-180' : ''}`}
+            className={`size-[12px] transition-transform ${isOpen ? '' : 'rotate-180'}`}
           />
         </span>
       </button>
