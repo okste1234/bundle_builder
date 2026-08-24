@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
+import { Collapse } from '../shared/Collapse';
 
 interface AccordionStepProps {
   stepId: string;
@@ -14,33 +15,23 @@ interface AccordionStepProps {
   children: ReactNode;
 }
 
-export function AccordionStep({
-  stepId,
-  stepNumber,
-  totalSteps,
-  title,
-  icon,
-  isOpen,
-  selectedCount,
-  onToggle,
-  nextLabel,
-  onNext,
-  children,
-}: AccordionStepProps) {
+export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(function AccordionStep(
+  { stepId, stepNumber, totalSteps, title, icon, isOpen, selectedCount, onToggle, nextLabel, onNext, children },
+  ref,
+) {
   const panelId = `step-panel-${stepId}`;
   const headerId = `step-header-${stepId}`;
 
   return (
     <section
-      className={
-        isOpen
-          ? 'flex w-full flex-col items-start gap-[5px] rounded-[10px] bg-surface-tint pt-[15px]'
-          : 'flex w-full flex-col items-start gap-[5px]'
-      }
+      ref={ref}
+      className={`flex w-full scroll-mt-[24px] flex-col items-start gap-[5px] rounded-[10px] transition-[background-color,padding-top] duration-300 ease-out ${
+        isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0'
+      }`}
     >
       <div className="flex w-full items-center justify-center px-[15px]">
         <p
-          className={`flex-1 font-medium uppercase leading-none text-label ${
+          className={`flex-1 font-medium uppercase leading-none text-label transition-[font-size] duration-300 ${
             isOpen ? 'text-[12px]' : 'text-[10px] tracking-[1.6px]'
           }`}
         >
@@ -66,7 +57,7 @@ export function AccordionStep({
         </span>
         <span className="flex shrink-0 items-center gap-[4px]">
           {isOpen && typeof selectedCount === 'number' && (
-            <span className="whitespace-nowrap text-[14px] font-medium leading-[16px] text-brand">
+            <span className="animate-fade-in whitespace-nowrap text-[14px] font-medium leading-[16px] text-brand">
               {selectedCount} selected
             </span>
           )}
@@ -76,23 +67,23 @@ export function AccordionStep({
           <img
             src="/assets/icon-chevron-down.svg"
             alt=""
-            className={`size-[12px] transition-transform ${isOpen ? '' : 'rotate-180'}`}
+            className={`size-[12px] shrink-0 transition-transform duration-300 ease-out ${isOpen ? '' : 'rotate-180'}`}
           />
         </span>
       </button>
 
-      {isOpen && (
+      <Collapse open={isOpen} className="w-full" durationMs={320}>
         <div id={panelId} role="region" aria-labelledby={headerId} className="flex w-full flex-col gap-[15px] px-[15px] pb-[20px]">
           {children}
           <button
             type="button"
             onClick={onNext}
-            className="flex h-[39px] shrink-0 items-center justify-center self-center rounded-[7px] border border-brand px-[24px] py-[5px] text-[18px] font-semibold leading-[24px] text-brand transition-colors hover:bg-brand/5"
+            className="flex h-[39px] shrink-0 items-center justify-center self-center rounded-[7px] border border-brand px-[24px] py-[5px] text-[18px] font-semibold leading-[24px] text-brand transition-[background-color,transform] duration-150 hover:bg-brand/5 active:scale-[0.97]"
           >
             {nextLabel}
           </button>
         </div>
-      )}
+      </Collapse>
     </section>
   );
-}
+});

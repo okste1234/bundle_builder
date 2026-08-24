@@ -25,7 +25,7 @@ export function QuantityStepper({
   const atMax = disabled || quantity >= max;
 
   const buttonBase =
-    'flex size-[20px] shrink-0 items-center justify-center rounded-[4px] transition-colors disabled:cursor-not-allowed';
+    'flex size-[20px] shrink-0 items-center justify-center rounded-[4px] transition-[background-color,border-color,opacity,transform] duration-150 ease-out disabled:cursor-not-allowed active:enabled:scale-90';
   const decrementClasses = disabled
     ? 'bg-disabled-bg border border-line'
     : 'bg-white border-2 border-line-soft disabled:opacity-40';
@@ -48,8 +48,10 @@ export function QuantityStepper({
           <img src="/assets/icon-minus.svg" alt="" className="h-[1.6px] w-[8px]" />
         </span>
       </button>
-      <span className="min-w-[8px] text-center text-[16px] font-medium leading-[20px] text-ink tabular-nums">
-        {quantity}
+      <span className="min-w-[8px] text-center text-[16px] font-medium leading-[20px] text-ink tabular-nums" aria-live="polite">
+        <span key={quantity} className="inline-block animate-value-pulse">
+          {quantity}
+        </span>
       </span>
       <button
         type="button"

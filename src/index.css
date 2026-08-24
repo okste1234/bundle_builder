@@ -56,3 +56,61 @@ input:focus-visible,
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ---- Motion system ---- */
+
+/* Quantity numbers and price/total figures replay this on every value change (via a
+   `key`-remount), giving a brief, deliberate "confirmed" pulse without any JS timer. */
+@keyframes value-pulse {
+  0% {
+    opacity: 0.4;
+    transform: translateY(1px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-value-pulse {
+  animation: value-pulse 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 220ms ease-out;
+}
+
+/* Checkout confirmation icon: circle draws first, then the check stroke follows. */
+.check-circle-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-stroke 380ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.check-mark-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-stroke 260ms cubic-bezier(0.4, 0, 0.2, 1) 260ms forwards;
+}
+@keyframes draw-stroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -2,6 +2,7 @@ import type { Product, ProductSelection } from '../../types';
 import { DEFAULT_VARIANT_KEY } from '../../types';
 import { Badge } from '../shared/Badge';
 import { Price } from '../shared/Price';
+import { ProductImage } from '../shared/ProductImage';
 import { QuantityStepper } from './QuantityStepper';
 import { VariantSelector } from './VariantSelector';
 
@@ -26,14 +27,19 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
   // Grey (qty 0) on the same card, since White ×1 still lives in the review panel.
   const isProductInBundle = Object.values(selection?.quantities ?? {}).some((qty) => qty > 0);
 
+  // Most products keep one constant hero photo regardless of color; a few (where the
+  // swatch itself is the only shot of that color) override it per variant.
+  const activeVariant = product.variants?.find((v) => v.id === activeVariantId);
+  const displayImage = activeVariant?.image ?? product.image;
+
   return (
     <div
-      className={`flex items-center overflow-hidden rounded-[10px] bg-white p-[11px] ${
+      className={`flex items-center overflow-hidden rounded-[10px] bg-white p-[11px] transition-all duration-300 ease-out ${
         isProductInBundle ? 'gap-[19px] border-2 border-[rgba(78,47,210,0.7)]' : 'gap-[13px] border-2 border-transparent'
       }`}
     >
       <div className="relative h-[137px] w-[101px] shrink-0 overflow-hidden rounded-[5px] bg-white">
-        <img src={product.image} alt={product.name} className="size-full object-cover" />
+        <ProductImage key={displayImage} src={displayImage} alt={product.name} className="size-full animate-fade-in object-cover" />
         {product.discountLabel && (
           <Badge tone="discount" className="absolute left-0 top-0">
             {product.discountLabel}
@@ -62,7 +68,7 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
           )}
         </div>
 
-        <div className={`flex w-full items-end ${isProductInBundle ? 'gap-[10px]' : 'gap-[46px]'}`}>
+        <div className={`flex w-full items-end transition-[gap] duration-300 ease-out ${isProductInBundle ? 'gap-[10px]' : 'gap-[46px]'}`}>
           <QuantityStepper
             quantity={quantity}
             onIncrement={onIncrement}

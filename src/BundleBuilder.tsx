@@ -1,13 +1,35 @@
+import { useEffect, useRef } from 'react';
 import { AccordionStep } from './components/accordion/AccordionStep';
 import { ProductCard } from './components/product/ProductCard';
 import { PlanOptionCard } from './components/plan/PlanOptionCard';
 import { useBundle } from './state/useBundle';
 import { getSelectedProductCount } from './state/selectors';
 import { plans, productsByCategory, steps } from './data/catalog';
+import { usePrefersReducedMotion } from './hooks/usePrefersReducedMotion';
 import type { ProductCategory } from './types';
 
 export function BundleBuilder() {
   const { state, toggleStep, openStep, setVariant, adjustQuantity, setPlan } = useBundle();
+  const reducedMotion = usePrefersReducedMotion();
+  const stepRefs = useRef<Record<string, HTMLElement | null>>({});
+  const isFirstRender = useRef(true);
+
+  // When a step opens (via header click or "Next"), bring it into view — but only if it
+  // isn't already comfortably visible, so we never force an unnecessary jump.
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const el = state.openStepId ? stepRefs.current[state.openStepId] : null;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const headerHeight = 24;
+    const fullyVisible = rect.top >= headerHeight && rect.bottom <= window.innerHeight;
+    if (!fullyVisible) {
+      el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    }
+  }, [state.openStepId, reducedMotion]);
 
   return (
     <div className="flex w-full flex-col items-start gap-[13px]" aria-label="Bundle builder steps">
@@ -18,6 +40,9 @@ export function BundleBuilder() {
         return (
           <AccordionStep
             key={step.id}
+            ref={(el) => {
+              stepRefs.current[step.id] = el;
+            }}
             stepId={step.id}
             stepNumber={step.stepNumber}
             totalSteps={steps.length}

@@ -19,13 +19,17 @@ export function VariantSelector({ productName, variants, selectedId, onSelect }:
             role="radio"
             aria-checked={isSelected}
             onClick={() => onSelect(variant.id)}
-            className={`flex h-[26px] items-center justify-center gap-[4px] rounded-[2px] px-[5px] py-px transition-colors ${
+            className={`flex h-[26px] items-center justify-center gap-[4px] rounded-[2px] px-[5px] py-px transition-all duration-200 ease-out active:scale-95 ${
               isSelected
                 ? 'border-[0.5px] border-brand-teal bg-[rgba(29,240,187,0.04)] px-[3px]'
                 : 'border-[0.5px] border-[#ccc] bg-white'
             }`}
           >
-            <img src={variant.swatchImage} alt="" className="size-[22px] rounded-[5px] object-cover" />
+            <img
+              src={variant.swatchImage}
+              alt=""
+              className={`size-[22px] rounded-[5px] object-cover transition-transform duration-200 ease-out ${isSelected ? 'scale-110' : 'scale-100'}`}
+            />
             <span className="whitespace-nowrap text-[10px] font-medium tracking-[0.6px] text-ink-soft">
               {variant.label}
             </span>

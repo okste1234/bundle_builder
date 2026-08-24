@@ -6,6 +6,10 @@ export interface Variant {
   id: string;
   label: string;
   swatchImage: string;
+  /** Overrides the product's hero photo when this variant is active — only set for
+   *  products where the swatch photo is the only shot of that color (no separate,
+   *  color-agnostic hero shot exists in the source design). */
+  image?: string;
 }
 
 export interface Product {

@@ -1,37 +1,42 @@
 import { useState } from 'react';
 import { useBundle } from '../../state/useBundle';
-import { getLineItemsForCategory, getTotals } from '../../state/selectors';
+import { getAllLineItems, getTotals } from '../../state/selectors';
 import { financing, guarantee, plansById, shipping } from '../../data/catalog';
+import { ReviewCategorySection } from './ReviewCategorySection';
 import { ReviewSection } from './ReviewSection';
-import { ReviewItem } from './ReviewItem';
 import { ReviewInfoRow } from './ReviewInfoRow';
 import { Badge } from '../shared/Badge';
 import { Price } from '../shared/Price';
 import { Toast } from '../shared/Toast';
+import { ConfirmationModal } from '../shared/ConfirmationModal';
+import { ProductImage } from '../shared/ProductImage';
+import { useToast } from '../../hooks/useToast';
 
-const CATEGORY_LABELS = {
-  camera: 'Cameras',
-  sensor: 'Sensors',
-  accessory: 'Accessories',
-} as const;
+const CHECKOUT_PREPARE_MS = 450;
 
 export function ReviewPanel() {
   const { state, saveForLater } = useBundle();
-  const [toast, setToast] = useState<string | null>(null);
+  const { content: toast, visible: toastVisible, show: showToast } = useToast();
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [preparingCheckout, setPreparingCheckout] = useState(false);
 
   const totals = getTotals(state);
   const plan = state.planId ? plansById[state.planId] : null;
   const hasDiscount = totals.compareAtTotal > totals.currentTotal;
+  const isBundleEmpty = getAllLineItems(state).length === 0 && !plan;
 
   function handleCheckout() {
-    setToast('Your security system is ready for checkout.');
-    window.setTimeout(() => setToast(null), 3200);
+    if (isBundleEmpty || preparingCheckout) return;
+    setPreparingCheckout(true);
+    window.setTimeout(() => {
+      setPreparingCheckout(false);
+      setConfirmationOpen(true);
+    }, CHECKOUT_PREPARE_MS);
   }
 
   function handleSave() {
     saveForLater();
-    setToast('Your system has been saved for later.');
-    window.setTimeout(() => setToast(null), 3200);
+    showToast('System saved', 'Your configuration has been saved. You can return anytime and continue where you left off.');
   }
 
   return (
@@ -50,23 +55,9 @@ export function ReviewPanel() {
       </div>
 
       <div className="flex w-full flex-col gap-[10px]">
-        {(['camera', 'sensor', 'accessory'] as const).map((category) => {
-          const items = getLineItemsForCategory(state, category);
-          if (items.length === 0) return null;
-
-          const productLineCounts = items.reduce<Record<string, number>>((counts, item) => {
-            counts[item.productId] = (counts[item.productId] ?? 0) + 1;
-            return counts;
-          }, {});
-
-          return (
-            <ReviewSection key={category} label={CATEGORY_LABELS[category]}>
-              {items.map((item) => (
-                <ReviewItem key={item.key} item={item} showVariantLabel={productLineCounts[item.productId] > 1} />
-              ))}
-            </ReviewSection>
-          );
-        })}
+        <ReviewCategorySection category="camera" state={state} />
+        <ReviewCategorySection category="sensor" state={state} />
+        <ReviewCategorySection category="accessory" state={state} />
 
         {plan && (
           <ReviewSection label="Plan">
@@ -88,7 +79,7 @@ export function ReviewPanel() {
       <div className="flex w-full flex-col gap-[8px]">
         <div className="flex w-full flex-col gap-[4px]">
           <div className="flex w-full items-center justify-between">
-            <img src={guarantee.image} alt={guarantee.label} className="size-[78px]" />
+            <ProductImage src={guarantee.image} alt={guarantee.label} className="size-[78px]" />
             <div className="flex h-full flex-col items-end justify-center gap-[8px]">
               <Badge tone="financing">
                 {financing.prefixLabel} {`$${totals.financingPerMonth.toFixed(2)}/mo`}
@@ -106,9 +97,12 @@ export function ReviewPanel() {
             <button
               type="button"
               onClick={handleCheckout}
-              className="flex w-full items-center justify-center rounded-[4px] bg-brand px-[16px] py-[13px] text-[17px] font-bold text-white transition-opacity hover:opacity-90"
+              disabled={isBundleEmpty || preparingCheckout}
+              aria-disabled={isBundleEmpty || preparingCheckout}
+              title={isBundleEmpty ? 'Add at least one product to your bundle to check out.' : undefined}
+              className="flex w-full items-center justify-center rounded-[4px] bg-brand px-[16px] py-[13px] text-[17px] font-bold text-white transition-[opacity,transform] duration-150 hover:enabled:opacity-90 active:enabled:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Checkout
+              {preparingCheckout ? 'Preparing…' : 'Checkout'}
             </button>
           </div>
         </div>
@@ -116,13 +110,15 @@ export function ReviewPanel() {
         <button
           type="button"
           onClick={handleSave}
-          className="w-full text-center text-[14px] italic leading-[1.2] text-label underline underline-offset-2"
+          className="w-full text-center text-[14px] italic leading-[1.2] text-label underline underline-offset-2 transition-opacity hover:opacity-70"
         >
           Save my system for later
         </button>
       </div>
 
-      {toast && <Toast message={toast} />}
+      {toast && <Toast visible={toastVisible} title={toast.title} description={toast.description} />}
+
+      <ConfirmationModal open={confirmationOpen} onClose={() => setConfirmationOpen(false)} />
     </aside>
   );
 }

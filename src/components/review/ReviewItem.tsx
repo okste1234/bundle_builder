@@ -1,5 +1,6 @@
 import type { ReviewLineItem } from '../../types';
 import { Price } from '../shared/Price';
+import { ProductImage } from '../shared/ProductImage';
 import { QuantityStepper } from '../product/QuantityStepper';
 import { useBundle } from '../../state/useBundle';
 
@@ -19,7 +20,7 @@ export function ReviewItem({ item, showVariantLabel = false }: ReviewItemProps) 
     <div className="flex w-full items-center gap-[16px]">
       <div className="flex min-w-0 flex-1 items-center gap-[12px]">
         <div className="size-[41px] shrink-0 overflow-hidden rounded-[5px] bg-white">
-          <img src={item.image} alt="" className="size-full object-cover" />
+          <ProductImage src={item.image} alt="" className="size-full object-cover" />
         </div>
         <p className="line-clamp-2 min-w-0 flex-1 text-[14px] font-medium leading-[16px] tracking-[0.07px] text-ink">
           {label}

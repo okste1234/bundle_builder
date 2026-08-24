@@ -63,8 +63,18 @@
     "image": "/assets/wyze-battery-cam-pro-swatch-white.png",
     "price": 89.98,
     "variants": [
-      { "id": "white", "label": "White", "swatchImage": "/assets/wyze-battery-cam-pro-swatch-white.png" },
-      { "id": "black", "label": "Black", "swatchImage": "/assets/wyze-battery-cam-pro-swatch-black.png" }
+      {
+        "id": "white",
+        "label": "White",
+        "swatchImage": "/assets/wyze-battery-cam-pro-swatch-white.png",
+        "image": "/assets/wyze-battery-cam-pro-swatch-white.png"
+      },
+      {
+        "id": "black",
+        "label": "Black",
+        "swatchImage": "/assets/wyze-battery-cam-pro-swatch-black.png",
+        "image": "/assets/wyze-battery-cam-pro-swatch-black.png"
+      }
     ]
   }
 ]
