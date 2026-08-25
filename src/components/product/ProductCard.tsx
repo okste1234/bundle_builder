@@ -71,17 +71,7 @@ export function ProductCard({
           </Badge>
         )}
       </div>
-
-      {/* 
-        IMPORTANT:
-        This column is vertically centered by the parent card.
-
-        Therefore:
-        - Product with more content occupies more vertical space.
-        - Product with less content occupies less vertical space.
-        - Both cards remain the same outer height.
-        - Their content does NOT have to start at the same Y position.
-      */}
+      
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-[10px]">
         <div className="flex w-full flex-col items-start gap-[8px] tracking-[0.6px]">
           <h4 className="w-full text-[16px] font-semibold leading-none text-ink-soft">

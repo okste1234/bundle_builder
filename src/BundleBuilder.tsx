@@ -69,9 +69,9 @@ export function BundleBuilder() {
                 ))}
               </div>
             ) : (
-            <div className="grid w-full grid-cols-1 gap-[15px] xl:grid-cols-2 xl:items-stretch">
+            <div className="grid w-full grid-cols-1 gap-[15px] sm:grid-cols-2 sm:items-stretch">
             {productsByCategory[step.category as ProductCategory].map((product) => (
-              <div key={product.id} className="min-w-0 xl:last:odd:col-span-2 xl:last:odd:mx-auto xl:last:odd:w-[360px]">
+              <div key={product.id} className="min-w-0 sm:last:odd:col-span-2 sm:last:odd:mx-auto sm:last:odd:w-90">
                 <ProductCard
                   product={product}
                   selection={state.products[product.id]}
