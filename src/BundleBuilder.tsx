@@ -58,7 +58,7 @@ export function BundleBuilder() {
             onNext={() => (nextStep ? openStep(nextStep.id) : toggleStep(step.id))}
           >
             {step.category === 'plan' ? (
-              <div role="radiogroup" aria-label="Choose your plan" className="flex w-full flex-col gap-[12px]">
+              <div role="radiogroup" aria-label="Choose your plan" className="grid w-full grid-cols-1 gap-[12px] pt-[10px] sm:grid-cols-2 sm:items-stretch">
                 {plans.map((plan) => (
                   <PlanOptionCard
                     key={plan.id}

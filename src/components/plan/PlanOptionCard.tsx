@@ -1,4 +1,5 @@
 import type { Plan } from '../../types';
+import { Badge } from '../shared/Badge';
 import { Price } from '../shared/Price';
 
 interface PlanOptionCardProps {
@@ -9,6 +10,9 @@ interface PlanOptionCardProps {
 
 export function PlanOptionCard({ plan, isSelected, onSelect }: PlanOptionCardProps) {
   const namePrefix = plan.nameAccent ? plan.name.replace(plan.nameAccent, '').trim() : null;
+  // A plan with a compare-at price is genuinely discounted — that fact is what earns it
+  // the "Best value" callout, rather than an arbitrary/editorial "Recommended" label.
+  const isBestValue = plan.compareAtPrice !== undefined && plan.compareAtPrice > plan.price;
 
   return (
     <button
@@ -16,10 +20,15 @@ export function PlanOptionCard({ plan, isSelected, onSelect }: PlanOptionCardPro
       role="radio"
       aria-checked={isSelected}
       onClick={onSelect}
-      className={`flex w-full items-center justify-between gap-[16px] rounded-[10px] bg-white p-[16px] text-left transition-colors ${
+      className={`relative flex h-full w-full items-center justify-between gap-[16px] rounded-[10px] bg-white p-[16px] text-left transition-colors ${
         isSelected ? 'border-2 border-[rgba(78,47,210,0.7)]' : 'border-2 border-transparent ring-1 ring-line-soft'
       }`}
     >
+      {isBestValue && (
+        <Badge tone="discount" className="absolute -top-[10px] left-[16px]">
+          Best value
+        </Badge>
+      )}
       <div className="flex min-w-0 flex-1 items-center gap-[10px]">
         <img src={plan.icon} alt="" className="size-[26px] shrink-0" />
         <div className="flex min-w-0 flex-col gap-[4px]">
