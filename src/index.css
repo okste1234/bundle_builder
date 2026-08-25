@@ -22,7 +22,7 @@
   --font-gilroy: 'Gilroy', 'General Sans', ui-sans-serif, system-ui, sans-serif;
 
   /*
-    Design breakpoint schema (see README): < 768 mobile, 768 tablet portrait,
+    Design breakpoint schema: < 768 mobile, 768 tablet portrait,
     1024 tablet landscape / small desktop, 1200 standard desktop, 1440 wide
     desktop. sm/md/lg happen to match Tailwind's own defaults (640/768/1024);
     they're still restated here (not just xl/2xl) because Tailwind v4 orders

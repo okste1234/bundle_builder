@@ -3,7 +3,7 @@
     "id": "no-plan",
     "name": "No monthly plan",
     "description": "Local storage only. Upgrade any time from your account.",
-    "icon": "/assets/icon-plan-shield-hms.svg",
+    "icon": "/assets/icon-plan-local-storage.svg",
     "price": 0
   },
   {

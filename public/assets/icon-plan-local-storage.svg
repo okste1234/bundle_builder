@@ -1,0 +1,7 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/plan/local-storage">
+<path id="house" d="M5.5 21.5V11.5L13 4.75L20.5 11.5V21.5H5.5Z" stroke="#6F7882" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect id="door" x="10.6" y="15.4" width="4.8" height="6.1" rx="1.1" stroke="#6F7882" stroke-width="1.5" stroke-linejoin="round"/>
+<path id="handle" d="M14.15 18.5V18.55" stroke="#6F7882" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
