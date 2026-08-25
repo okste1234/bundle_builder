@@ -8,6 +8,8 @@ interface AccordionStepProps {
   title: string;
   icon: string;
   isOpen: boolean;
+  /** The first step never gets top spacing — there's nothing above it to separate from. */
+  isFirst?: boolean;
   selectedCount?: number;
   onToggle: () => void;
   nextLabel: string;
@@ -16,23 +18,32 @@ interface AccordionStepProps {
 }
 
 export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(function AccordionStep(
-  { stepId, stepNumber, totalSteps, title, icon, isOpen, selectedCount, onToggle, nextLabel, onNext, children },
+  { stepId, stepNumber, totalSteps, title, icon, isOpen, isFirst = false, selectedCount, onToggle, nextLabel, onNext, children },
   ref,
 ) {
   const panelId = `step-panel-${stepId}`;
   const headerId = `step-header-${stepId}`;
 
+  // Steps are spaced apart with margin (not a parent `gap`) so that an *open* step can
+  // collapse the space above itself to zero — its "Step X of 4" label should sit flush
+  // against the previous step's divider line, not float below a visible gap. A closed
+  // step keeps the normal breathing room from whatever's above it.
+  const topSpacingClass = isFirst || isOpen ? ' ' : 'mt-[6px] md:mt-[13px]';
+  const roundedClass = isFirst ? 'xl:rounded-[10px] md:rounded-t-[10px]' : 'md:rounded-b-[10px]';
+
+
+
   return (
     <section
       ref={ref}
-      className={`flex w-full scroll-mt-[24px] flex-col items-start gap-[5px] md:rounded-t-[10px] lg:rounded-[10px] transition-[background-color,padding-top] duration-300 ease-out ${
+      className={`flex w-full scroll-mt-[24px] flex-col items-start ${roundedClass} transition-[background-color,padding-top,margin-top] duration-300 ease-out ${topSpacingClass} ${
         isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0'
       }`}
     >
       <div className="flex w-full items-center justify-center px-[15px]">
         <p
-          className={`flex-1 font-medium uppercase leading-none text-label transition-[font-size] duration-300 ${
-            isOpen ? 'text-[12px]' : 'text-[10px] tracking-[1.6px]'
+          className={`flex-1 font-medium uppercase leading-none text-label transition-[font-size] duration-300 mb-1 ${
+            isOpen ? 'text-[12px] tracking-[1.6px]' : 'text-[10px] tracking-[1.6px]'
           }`}
         >
           Step {stepNumber} of {totalSteps}

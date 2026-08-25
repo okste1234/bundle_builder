@@ -136,7 +136,7 @@ export function ConfirmationModal({ open, onClose, onViewSystem }: ConfirmationM
           <button
             type="button"
             onClick={onClose}
-            className="flex w-full items-center justify-center rounded-[4px] bg-brand px-[16px] py-[13px] text-[16px] font-bold text-white transition-[transform,opacity] duration-150 hover:opacity-90 active:scale-[0.98]"
+            className="font-gilroy flex w-full items-center justify-center rounded-[4px] bg-brand px-[16px] py-[13px] text-[16px] font-extrabold text-white transition-[transform,opacity] duration-150 hover:opacity-90 active:scale-[0.98]"
           >
             Done
           </button>

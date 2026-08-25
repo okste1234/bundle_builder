@@ -32,7 +32,7 @@ export function BundleBuilder() {
   }, [state.openStepId, reducedMotion]);
 
   return (
-    <div className="flex w-full flex-col items-start gap-[6px] md:gap-[13px]" aria-label="Bundle builder steps">
+    <div className="flex w-full flex-col items-start" aria-label="Bundle builder steps">
       {steps.map((step, index) => {
         const isOpen = state.openStepId === step.id;
         const nextStep = steps[index + 1];
@@ -49,6 +49,7 @@ export function BundleBuilder() {
             title={step.title}
             icon={step.icon}
             isOpen={isOpen}
+            isFirst={index === 0}
             selectedCount={
               step.category === 'plan' ? undefined : getSelectedProductCount(state, step.category as ProductCategory)
             }

@@ -1,15 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,401,500,600,700&display=swap');
 @import 'tailwindcss';
 
-/*
-  The Figma source uses the commercial fonts "Gilroy" (body/UI) and
-  "TT Norms Pro" (Checkout button only). Neither is redistributable, so this
-  build substitutes the closest free geometric sans available on Google
-  Fonts (Poppins) for both, differentiated only by weight. See
-  design/figma/typography.md and README.md for details.
-*/
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-ExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'General Sans', 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-gilroy: 'Gilroy', 'General Sans', ui-sans-serif, system-ui, sans-serif;
 
   /*
     Design breakpoint schema (see README): < 768 mobile, 768 tablet portrait,

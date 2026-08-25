@@ -23,7 +23,7 @@ export function PlanOptionCard({ plan, isSelected, onSelect }: PlanOptionCardPro
       <div className="flex min-w-0 flex-1 items-center gap-[10px]">
         <img src={plan.icon} alt="" className="size-[26px] shrink-0" />
         <div className="flex min-w-0 flex-col gap-[4px]">
-          <p className="text-[16px] font-bold leading-none tracking-[-0.032px] text-ink">
+          <p className="font-gilroy text-[16px] font-extrabold leading-none tracking-[-0.032px] text-ink">
             {namePrefix ? (
               <>
                 {namePrefix}{' '}

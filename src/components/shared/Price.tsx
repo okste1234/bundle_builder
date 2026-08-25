@@ -20,7 +20,7 @@ interface PriceProps {
 const sizeClasses: Record<NonNullable<PriceProps['size']>, { compare: string; current: string }> = {
   sm: { compare: 'text-[14px]', current: 'text-[14px] font-semibold' },
   md: { compare: 'text-[16px]', current: 'text-[16px]' },
-  lg: { compare: 'text-[18px]', current: 'text-[24px] font-bold' },
+  lg: { compare: 'text-[18px]', current: 'font-gilroy text-[24px] font-extrabold' },
 };
 
 export function Price({
