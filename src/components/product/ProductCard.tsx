@@ -14,32 +14,57 @@ interface ProductCardProps {
   onDecrement: () => void;
 }
 
-export function ProductCard({ product, selection, onSelectVariant, onIncrement, onDecrement }: ProductCardProps) {
+export function ProductCard({
+  product,
+  selection,
+  onSelectVariant,
+  onIncrement,
+  onDecrement,
+}: ProductCardProps) {
   const hasVariants = Boolean(product.variants?.length);
+
   const activeVariantId = hasVariants
     ? selection?.selectedVariantId ?? product.variants![0].id
     : DEFAULT_VARIANT_KEY;
+
   const quantity = selection?.quantities[activeVariantId] ?? 0;
 
-  // The card is "selected" (purple border) if the product is in the bundle at all — i.e.
-  // ANY variant has qty > 0 — not just the variant currently showing on the card. This
-  // keeps e.g. a White ×1 selection visibly reflected even while the user is previewing
-  // Grey (qty 0) on the same card, since White ×1 still lives in the review panel.
-  const isProductInBundle = Object.values(selection?.quantities ?? {}).some((qty) => qty > 0);
+  const isProductInBundle = Object.values(
+    selection?.quantities ?? {},
+  ).some((qty) => qty > 0);
 
-  // Most products keep one constant hero photo regardless of color; a few (where the
-  // swatch itself is the only shot of that color) override it per variant.
-  const activeVariant = product.variants?.find((v) => v.id === activeVariantId);
+  const activeVariant = product.variants?.find(
+    (variant) => variant.id === activeVariantId,
+  );
+
   const displayImage = activeVariant?.image ?? product.image;
 
   return (
     <div
-      className={`flex h-full items-start overflow-hidden rounded-[10px] bg-white p-[11px] transition-all duration-300 ease-out ${
-        isProductInBundle ? 'gap-[19px] border-2 border-[rgba(78,47,210,0.7)]' : 'gap-[13px] border-2 border-transparent'
-      }`}
+      className={[
+        // Equal height is provided by the parent grid.
+        'flex h-full min-h-[159px]',
+        // Keep image and content horizontally aligned.
+        'items-center',
+        // Card geometry.
+        'overflow-hidden rounded-[10px] bg-white p-[11px]',
+        // Smooth selection transition.
+        'transition-all duration-300 ease-out',
+        // The gap changes when selected.
+        isProductInBundle
+          ? 'gap-[19px] border-2 border-[rgba(78,47,210,0.7)]'
+          : 'gap-[13px] border-2 border-transparent',
+      ].join(' ')}
     >
+      {/* Fixed image column */}
       <div className="relative h-[137px] w-[101px] shrink-0 overflow-hidden rounded-[5px] bg-white">
-        <ProductImage key={displayImage} src={displayImage} alt={product.name} className="size-full animate-fade-in object-contain" />
+        <ProductImage
+          key={displayImage}
+          src={displayImage}
+          alt={product.name}
+          className="size-full animate-fade-in object-contain"
+        />
+
         {product.discountLabel && (
           <Badge tone="discount" className="absolute left-0 top-0">
             {product.discountLabel}
@@ -47,17 +72,34 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
         )}
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col items-start gap-[10px]">
+      {/* 
+        IMPORTANT:
+        This column is vertically centered by the parent card.
+
+        Therefore:
+        - Product with more content occupies more vertical space.
+        - Product with less content occupies less vertical space.
+        - Both cards remain the same outer height.
+        - Their content does NOT have to start at the same Y position.
+      */}
+      <div className="flex min-w-0 flex-1 flex-col justify-center gap-[10px]">
         <div className="flex w-full flex-col items-start gap-[8px] tracking-[0.6px]">
-          <h4 className="w-full text-[16px] font-semibold leading-none text-ink-soft">{product.name}</h4>
+          <h4 className="w-full text-[16px] font-semibold leading-none text-ink-soft">
+            {product.name}
+          </h4>
+
           <p className="text-[12px] font-medium leading-[1.3] text-[rgba(31,31,31,0.75)]">
             {product.description}{' '}
             {product.learnMoreHref && (
-              <a href={product.learnMoreHref} className="text-[#00e] underline decoration-from-font">
+              <a
+                href={product.learnMoreHref}
+                className="text-[#00e] underline decoration-from-font whitespace-nowrap"
+              >
                 Learn More
               </a>
             )}
           </p>
+
           {hasVariants && (
             <VariantSelector
               productName={product.name}
@@ -68,7 +110,8 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
           )}
         </div>
 
-        <div className={`flex w-full items-end transition-[gap] duration-300 ease-out ${isProductInBundle ? 'gap-[10px]' : 'gap-[10px] md:gap-[46px]'}`}>
+        {/* Quantity + Price */}
+         <div className={`flex w-full items-end transition-[gap] duration-300 ease-out ${isProductInBundle ? 'gap-[10px]' : 'gap-[10px] md:gap-[46px]'}`}>
           <QuantityStepper
             quantity={quantity}
             onIncrement={onIncrement}

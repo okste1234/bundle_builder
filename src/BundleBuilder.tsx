@@ -68,24 +68,34 @@ export function BundleBuilder() {
                 ))}
               </div>
             ) : (
-              <div className="flex w-full flex-wrap justify-center gap-[15px]">
-                {productsByCategory[step.category as ProductCategory].map((product) => (
-                  <div key={product.id} className="w-full md:w-[calc(50%-7.5px)] md:[&:last-child:nth-child(odd)]:w-[360px]">
-                    <ProductCard
-                      product={product}
-                      selection={state.products[product.id]}
-                      onSelectVariant={(variantId) => setVariant(product.id, variantId)}
-                      onIncrement={() =>
-                        adjustQuantity(product.id, state.products[product.id]?.selectedVariantId ?? undefined, 1)
-                      }
-                      onDecrement={() =>
-                        adjustQuantity(product.id, state.products[product.id]?.selectedVariantId ?? undefined, -1)
-                      }
-                    />
-                  </div>
-                ))}
+            <div className="grid w-full grid-cols-1 gap-[15px] xl:grid-cols-2 xl:items-stretch">
+            {productsByCategory[step.category as ProductCategory].map((product) => (
+              <div key={product.id} className="min-w-0 xl:last:odd:col-span-2 xl:last:odd:mx-auto xl:last:odd:w-[360px]">
+                <ProductCard
+                  product={product}
+                  selection={state.products[product.id]}
+                  onSelectVariant={(variantId) =>
+                    setVariant(product.id, variantId)
+                  }
+                  onIncrement={() =>
+                    adjustQuantity(
+                      product.id,
+                      state.products[product.id]?.selectedVariantId ?? undefined,
+                      1,
+                    )
+                  }
+                  onDecrement={() =>
+                    adjustQuantity(
+                      product.id,
+                      state.products[product.id]?.selectedVariantId ?? undefined,
+                      -1,
+                    )
+                  }
+                />
               </div>
-            )}
+            ))}
+          </div>
+          )}
           </AccordionStep>
         );
       })}
