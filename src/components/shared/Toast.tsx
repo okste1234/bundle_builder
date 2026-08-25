@@ -14,7 +14,7 @@ export function Toast({ visible, title, description }: ToastProps) {
     <div
       role="status"
       aria-live="polite"
-      className={`fixed inset-x-4 bottom-6 z-[70] mx-auto flex max-w-[380px] items-start gap-[12px] rounded-[10px] bg-ink px-[16px] py-[14px] shadow-[0_12px_32px_rgba(11,13,16,0.28)] transition-all duration-300 ease-out motion-reduce:transition-none sm:inset-x-auto sm:right-6 sm:left-auto ${
+      className={`fixed inset-x-4 bottom-6 z-[70] mx-auto flex max-w-[380px] items-start gap-[12px] rounded-[10px] bg-ink px-[16px] py-[14px] shadow-[0_12px_32px_rgba(11,13,16,0.28)] transition-all duration-300 ease-out motion-reduce:transition-none md:inset-x-auto md:right-6 md:left-auto ${
         visible ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
       }`}
     >

@@ -42,7 +42,7 @@ export function ReviewPanel() {
   return (
     <aside
       aria-label="Your security system review"
-      className="flex w-full flex-col items-start gap-[10px] rounded-[10px] bg-surface-tint px-[20px] pb-[31px] pt-[20px] lg:sticky lg:top-8"
+      className="flex w-full flex-col items-start gap-[10px] md:rounded-t-[10px] xl:rounded-[10px] bg-surface-tint px-[20px] pb-[31px] pt-[15px] xl:sticky xl:top-8"
     >
       <p className="w-full text-left text-[12px] font-medium uppercase leading-none tracking-[1.6px] text-label">
         Review

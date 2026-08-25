@@ -48,7 +48,7 @@ export function Price({
       {compareLabel && (
         <span
           key={animateOnChange ? compareLabel : undefined}
-          className={`${compareCls} ${compareColor} line-through decoration-from-font ${animateOnChange ? 'animate-value-pulse' : ''}`}
+          className={`${compareCls} ${compareColor} leading-none line-through decoration-from-font ${animateOnChange ? 'animate-value-pulse' : ''}`}
         >
           {compareLabel}
         </span>

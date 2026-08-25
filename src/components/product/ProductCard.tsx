@@ -34,12 +34,12 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
 
   return (
     <div
-      className={`flex items-center overflow-hidden rounded-[10px] bg-white p-[11px] transition-all duration-300 ease-out ${
+      className={`flex h-full items-start overflow-hidden rounded-[10px] bg-white p-[11px] transition-all duration-300 ease-out ${
         isProductInBundle ? 'gap-[19px] border-2 border-[rgba(78,47,210,0.7)]' : 'gap-[13px] border-2 border-transparent'
       }`}
     >
       <div className="relative h-[137px] w-[101px] shrink-0 overflow-hidden rounded-[5px] bg-white">
-        <ProductImage key={displayImage} src={displayImage} alt={product.name} className="size-full animate-fade-in object-cover" />
+        <ProductImage key={displayImage} src={displayImage} alt={product.name} className="size-full animate-fade-in object-contain" />
         {product.discountLabel && (
           <Badge tone="discount" className="absolute left-0 top-0">
             {product.discountLabel}
@@ -53,7 +53,7 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
           <p className="text-[12px] font-medium leading-[1.3] text-[rgba(31,31,31,0.75)]">
             {product.description}{' '}
             {product.learnMoreHref && (
-              <a href={product.learnMoreHref} className="text-[#00e] underline underline-offset-2">
+              <a href={product.learnMoreHref} className="text-[#00e] underline decoration-from-font">
                 Learn More
               </a>
             )}
@@ -68,7 +68,7 @@ export function ProductCard({ product, selection, onSelectVariant, onIncrement, 
           )}
         </div>
 
-        <div className={`flex w-full items-end transition-[gap] duration-300 ease-out ${isProductInBundle ? 'gap-[10px]' : 'gap-[46px]'}`}>
+        <div className={`flex w-full items-end transition-[gap] duration-300 ease-out ${isProductInBundle ? 'gap-[10px]' : 'gap-[10px] md:gap-[46px]'}`}>
           <QuantityStepper
             quantity={quantity}
             onIncrement={onIncrement}

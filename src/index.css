@@ -11,6 +11,22 @@
 @theme {
   --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
 
+  /*
+    Design breakpoint schema (see README): < 768 mobile, 768 tablet portrait,
+    1024 tablet landscape / small desktop, 1200 standard desktop, 1440 wide
+    desktop. sm/md/lg happen to match Tailwind's own defaults (640/768/1024);
+    they're still restated here (not just xl/2xl) because Tailwind v4 orders
+    each breakpoint's generated media query by where its `--breakpoint-*`
+    variable is declared, not by resolved pixel value — overriding only xl/2xl
+    would emit their block before lg's, so an `lg:` utility would beat an
+    `xl:` utility at 1200px+ instead of losing to it as intended.
+  */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1440px;
+
   --color-brand: #4e2fd2;
   --color-brand-teal: #0aa288;
   --color-ink: #0b0d10;

@@ -25,7 +25,7 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
   return (
     <section
       ref={ref}
-      className={`flex w-full scroll-mt-[24px] flex-col items-start gap-[5px] rounded-[10px] transition-[background-color,padding-top] duration-300 ease-out ${
+      className={`flex w-full scroll-mt-[24px] flex-col items-start gap-[5px] md:rounded-t-[10px] lg:rounded-[10px] transition-[background-color,padding-top] duration-300 ease-out ${
         isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0'
       }`}
     >
@@ -50,8 +50,8 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
         }`}
       >
         <span className="flex min-w-0 flex-1 items-center gap-[8px]">
-          <img src={icon} alt="" className="size-[22px] shrink-0 sm:size-[26px]" />
-          <span className="min-w-0 flex-1 text-[18px] font-semibold leading-tight text-ink sm:text-[22px] sm:leading-none">
+          <img src={icon} alt="" className="size-[22px] shrink-0 md:size-[26px]" />
+          <span className="min-w-0 flex-1 text-[18px] font-semibold leading-tight text-ink md:text-[22px] md:leading-none">
             {title}
           </span>
         </span>

@@ -32,7 +32,7 @@ export function BundleBuilder() {
   }, [state.openStepId, reducedMotion]);
 
   return (
-    <div className="flex w-full flex-col items-start gap-[13px]" aria-label="Bundle builder steps">
+    <div className="flex w-full flex-col items-start gap-[6px] md:gap-[13px]" aria-label="Bundle builder steps">
       {steps.map((step, index) => {
         const isOpen = state.openStepId === step.id;
         const nextStep = steps[index + 1];
@@ -70,7 +70,7 @@ export function BundleBuilder() {
             ) : (
               <div className="flex w-full flex-wrap justify-center gap-[15px]">
                 {productsByCategory[step.category as ProductCategory].map((product) => (
-                  <div key={product.id} className="w-full sm:w-[calc(50%-7.5px)]">
+                  <div key={product.id} className="w-full md:w-[calc(50%-7.5px)] md:[&:last-child:nth-child(odd)]:w-[360px]">
                     <ProductCard
                       product={product}
                       selection={state.products[product.id]}
