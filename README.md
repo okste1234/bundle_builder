@@ -44,7 +44,7 @@ JSON edit, not a component change.
 | Fonts | General Sans (Fontshare) + self-hosted Gilroy ExtraBold — see [Typography](#-typography-decision) |
 | Linting | `oxlint` |
 
-No UI kit, no animation library, no CSS-in-JS — see [Architecture](#-architecture) for why.
+No UI kit, no animation library, no CSS-in-JS — see [Assumptions & Tradeoffs](#-assumptions--tradeoffs) for why.
 
 ---
 
@@ -102,6 +102,13 @@ npm run lint       # oxlint
   accordion and every review-line enter/exit. `usePrefersReducedMotion.ts` plus a blanket
   `prefers-reduced-motion` override in `index.css` collapse all of it to instant when the
   user has that preference — functionality is untouched either way, only the motion is.
+- **One deliberate JS exception: viewport-drift compensation.** The accordion never scrolls
+  to a destination (no `scrollIntoView`) — but a very tall step collapsing off-screen can
+  still drag the step that just opened out of view as a side effect of normal document
+  reflow. `BundleBuilder.tsx` runs a short `requestAnimationFrame` loop that cancels exactly
+  that borrowed drift frame-by-frame, and bails out the instant the user starts scrolling by
+  hand, so the interaction still reads as "the page rearranged itself" rather than "the page
+  scrolled me somewhere."
 
 ---
 
@@ -272,6 +279,19 @@ most of the UI's body text, the split is:
   transforms (Cloudinary, Imgix, or similar) would be the natural next step over serving
   static files from `public/` — resizing/format-negotiating per breakpoint instead of
   shipping one fixed asset to every viewport.
+- **No UI kit, animation library, or CSS-in-JS.** The actual surface area needing
+  library-grade behavior is small — one modal, one collapse primitive, one toast — and a
+  library like Radix or Headless UI earns its keep across a dozen primitives, not three,
+  especially when Figma-matched spacing/states would mean overriding most of its styling
+  anyway. `Collapse.tsx`'s entire job is animating a height, which CSS's
+  `grid-template-rows: 0fr → 1fr` already does with zero runtime JS — pulling in
+  Framer Motion or react-spring for the same result would ship real weight for nothing of this size.
+  More importantly, this is a frontend skills assessment: hand-rolling the modal's focus
+  trap, Escape/backdrop close, and focus restoration demonstrates understanding of *why*
+  those pieces work, not just that they can be installed. The honest tradeoff, though: a
+  battle-tested library would already cover edge cases a hand-rolled version might not —
+  nested focus traps, portal stacking order, odd Safari `inert`/focus quirks — that only
+  surface at larger scale than this prototype needs.
 - **Variant swatch touch targets are ~26px**, below the ~44px guideline usually recommended
   for touch. This matches the design's specified size exactly; enlarging it is a deliberate
   design decision to make, not a bug to silently fix, so it was left matching the spec.
