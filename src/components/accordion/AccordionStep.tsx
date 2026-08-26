@@ -1,6 +1,11 @@
 import { forwardRef, type ReactNode } from 'react';
 import { Collapse } from '../shared/Collapse';
 
+// Shared with BundleBuilder's scroll-into-view effect, which needs to wait for this same
+// collapse/expand transition to finish before measuring the (settled) layout — duplicating
+// the raw number in both places would let them silently drift out of sync.
+export const ACCORDION_TRANSITION_MS = 320;
+
 interface AccordionStepProps {
   stepId: string;
   stepNumber: number;
@@ -89,7 +94,7 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
         </span>
       </button>
 
-      <Collapse open={isOpen} className="w-full" durationMs={320}>
+      <Collapse open={isOpen} className="w-full" durationMs={ACCORDION_TRANSITION_MS}>
         <div id={panelId} role="region" aria-labelledby={headerId} className="flex w-full flex-col gap-[15px] px-[15px] pb-[20px]">
           {children}
           <button
