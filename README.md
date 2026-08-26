@@ -31,7 +31,7 @@ No UI kit, no animation library, no CSS-in-JS — see [Architecture](#architectu
 ## Setup
 
 ```bash
-git clone <this-repo>
+git clone <https://github.com/okste1234/bundle_builder.git>
 cd bundle_builder
 npm install
 ```
