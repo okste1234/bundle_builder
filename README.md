@@ -105,11 +105,12 @@ npm run lint       # oxlint
 - **One deliberate JS exception: viewport-drift compensation.** The accordion never scrolls
   to a destination (no `scrollIntoView`) — but a very tall step collapsing off-screen can
   still drag the step that just opened out of view as a side effect of normal document
-  reflow. `BundleBuilder.tsx` runs a short `requestAnimationFrame` loop that cancels exactly
-  that borrowed drift frame-by-frame, and bails out the instant the user starts scrolling by
-  hand, so the interaction still reads as "the page rearranged itself" rather than "the page
-  scrolled me somewhere.THIS WAS INTENTIONALLY DONE, as I do not want the `scrollIntoView` 
-  snap behaviour on some devices/browsers, and required to manipulate that for this simple build"
+  reflow e.g on small mobile or tablets. `BundleBuilder.tsx` runs a short `requestAnimationFrame`
+  loop that cancels exactly that borrowed drift frame-by-frame, and bails out the instant 
+  the user starts scrolling by hand or touch, so the interaction still reads as 
+  "the page rearranged itself" rather than "the page scrolled me somewhere.
+  THIS WAS INTENTIONALLY DONE, as I do not want the `scrollIntoView` snap behaviour on 
+  some devices/browsers, and be required to manipulate that for this simple build"
 
 ---
 
