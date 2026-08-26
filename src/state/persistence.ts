@@ -70,11 +70,17 @@ export function loadSavedBundle(): BundleState | null {
   }
   if (!isPlainObject(parsed)) return null;
 
+  // A returning visit restores the shopper's *system* exactly (products, quantities,
+  // variants, plan) — but the open accordion step is navigation state, not part of that
+  // system. If they saved with every step collapsed (or with a stale/invalid step id from
+  // an older catalog), land them on the first step rather than an all-collapsed accordion,
+  // consistent with "Step 1 is open on load." Collapsing everything mid-session still works
+  // exactly as before — this fallback only applies when hydrating from a saved payload.
   const validStepIds = new Set(steps.map((s) => s.id));
   const openStepId =
     typeof parsed.openStepId === 'string' && validStepIds.has(parsed.openStepId)
       ? parsed.openStepId
-      : null;
+      : steps[0].id;
 
   const planId =
     typeof parsed.planId === 'string' && plansById[parsed.planId] ? parsed.planId : null;
