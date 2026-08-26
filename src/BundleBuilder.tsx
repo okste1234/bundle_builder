@@ -51,7 +51,7 @@ export function BundleBuilder() {
             isOpen={isOpen}
             isFirst={index === 0}
             selectedCount={
-              step.category === 'plan' ? undefined : getSelectedProductCount(state, step.category as ProductCategory)
+              step.category === 'plan' ? (state.planId ? 1 : 0) : getSelectedProductCount(state, step.category as ProductCategory)
             }
             onToggle={() => toggleStep(step.id)}
             nextLabel={step.nextLabel}
@@ -76,7 +76,7 @@ export function BundleBuilder() {
                 sm:grid-cols-2 sm:items-stretch
                 lg:flex lg:flex-wrap lg:justify-center
                 xl:grid xl:grid-cols-2 xl:items-stretch
-            "
+              "
             >
               {productsByCategory[step.category as ProductCategory].map((product) => (
                 <div

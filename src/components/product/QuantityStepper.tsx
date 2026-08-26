@@ -9,6 +9,7 @@ interface QuantityStepperProps {
   /** Tighter footprint used in the review panel. */
   compact?: boolean;
   label: string;
+  isReviewBtn?: boolean;
 }
 
 export function QuantityStepper({
@@ -20,6 +21,7 @@ export function QuantityStepper({
   disabled = false,
   compact = false,
   label,
+  isReviewBtn = false
 }: QuantityStepperProps) {
   const atMin = disabled || quantity <= min;
   const atMax = disabled || quantity >= max;
@@ -29,7 +31,7 @@ export function QuantityStepper({
   const decrementClasses = disabled
     ? 'bg-disabled-bg border border-line'
     : 'bg-white border-2 border-line-soft disabled:opacity-40';
-  const incrementClasses = disabled ? 'bg-disabled-bg' : 'bg-surface-muted disabled:opacity-40';
+  const incrementClasses = disabled ? 'bg-disabled-bg border border-line' : isReviewBtn ? 'bg-white border-2 border-line-soft disabled:opacity-40' : 'bg-surface-muted disabled:opacity-40';
 
   return (
     <div

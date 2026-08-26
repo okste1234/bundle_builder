@@ -32,6 +32,7 @@ export function ReviewItem({ item, showVariantLabel = false }: ReviewItemProps) 
           disabled={item.required}
           compact
           label={label}
+          isReviewBtn= { true}
         />
       </div>
       <Price

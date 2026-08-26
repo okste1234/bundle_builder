@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 interface ReviewSectionProps {
-  label: string;
+  label: string | ReactNode;
   children: ReactNode;
 }
 

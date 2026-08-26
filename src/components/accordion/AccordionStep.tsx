@@ -67,18 +67,24 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
           </span>
         </span>
         <span className="flex shrink-0 items-center gap-[4px]">
-          {isOpen && typeof selectedCount === 'number' && (
-            <span className="animate-fade-in whitespace-nowrap text-[14px] font-medium leading-[16px] text-brand">
-              {selectedCount} selected
-            </span>
+          {typeof selectedCount === 'number' && (
+            <>
+              {/* Mobile: always visible */}
+              <span className="sm:hidden whitespace-nowrap text-[14px] font-medium leading-4 text-brand">
+                {selectedCount} selected
+              </span>
+              {/* sm+: only visible when open */}
+              {isOpen && (
+                <span className="hidden sm:inline whitespace-nowrap text-[14px] font-medium leading-4 text-brand">
+                  {selectedCount} selected
+                </span>
+              )}
+            </>
           )}
-          {/* This exported asset is Figma's base "12/carrot-up" shape (unrotated = up).
-              Figma's own "12/carrot-down" instance is the same shape with rotate-180
-              applied — so collapsed (down) gets the rotation here, not open (up). */}
           <img
             src="/assets/icon-chevron-down.svg"
             alt=""
-            className={`size-[12px] shrink-0 transition-transform duration-300 ease-out ${isOpen ? '' : 'rotate-180'}`}
+            className={`h-[7px] w-[10px] shrink-0 transition-transform duration-300 ease-out ${isOpen ? '' : 'rotate-180'}`}
           />
         </span>
       </button>

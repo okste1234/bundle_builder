@@ -68,13 +68,20 @@ export function ReviewPanel() {
             <ReviewCategorySection category="accessory" state={state} />
 
             {plan && (
-              <ReviewSection label="Plan">
+              <ReviewSection
+                label={
+                  <>
+                    <span className="sm:hidden">Home monitoring plan</span>
+                    <span className="hidden sm:inline">Plan</span>
+                  </>}
+                >
                 <ReviewInfoRow
                   icon={plan.icon}
                   label={plan.name}
                   current={plan.price}
                   compareAt={plan.compareAtPrice}
                   suffix="/mo"
+                  nameAccent={plan.nameAccent}
                 />
               </ReviewSection>
             )}
