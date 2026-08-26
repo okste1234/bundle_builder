@@ -37,7 +37,7 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
     <section
       ref={ref}
       className={`flex w-full scroll-mt-[24px] flex-col items-start ${roundedClass} transition-[background-color,padding-top,margin-top] duration-300 ease-out ${topSpacingClass} ${
-        isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0 md'
+        isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0'
       }`}
     >
       <div className="flex w-full items-center justify-center px-[15px]">

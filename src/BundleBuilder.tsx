@@ -12,15 +12,21 @@ export function BundleBuilder() {
   const { state, toggleStep, openStep, setVariant, adjustQuantity, setPlan } = useBundle();
   const reducedMotion = usePrefersReducedMotion();
   const stepRefs = useRef<Record<string, HTMLElement | null>>({});
-  const isFirstRender = useRef(true);
+  // Tracks the previously-seen openStepId (not "have we rendered before") so the effect
+  // below is inherently safe to run more than once for the same step — including React
+  // Strict Mode's intentional dev-mode double-invocation of effects on mount, which a
+  // plain "isFirstRender" boolean flag doesn't survive (the ref persists across both
+  // invocations, so the flag flips to false after the first one and no longer guards
+  // anything on the second).
+  const prevOpenStepId = useRef(state.openStepId);
 
   // When a step opens (via header click or "Next"), bring it into view — but only if it
   // isn't already comfortably visible, so we never force an unnecessary jump.
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    const openStepChanged = prevOpenStepId.current !== state.openStepId;
+    prevOpenStepId.current = state.openStepId;
+    if (!openStepChanged) return;
+
     const el = state.openStepId ? stepRefs.current[state.openStepId] : null;
     if (!el) return;
     const rect = el.getBoundingClientRect();
