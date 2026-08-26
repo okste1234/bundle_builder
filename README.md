@@ -1,11 +1,27 @@
-# Bundle Builder
+# 🛡️ Bundle Builder
 
-A data-driven React prototype of a multi-step security-system bundle builder with a
-live-updating review panel — built for the Frontend Take-Home brief.
+✨ **Bundle Builder** is a data-driven React prototype of a multi-step security-system
+bundle builder, paired with a **live-updating review panel** that stays in perfect sync
+with every selection, quantity, and variant change.
 
+Built for the Frontend Take-Home brief.
 **Figma reference:** [Frontend Test — Figma](https://www.figma.com/design/JYf61etQVqeseX7oY5alGz/Frontend-Test-Figma?node-id=68-8088&p=f&t=0x9ibc7jylb2tW3X-0)
 
-## Overview
+---
+
+## 🚀 Highlights
+
+- 🧩 **Data-driven catalog** – every product, plan, and step is JSON, not hardcoded per-product markup
+- 🎯 **Per-variant quantities** – White ×2 and Black ×1 of the same camera tracked and reviewed independently
+- 🔄 **Live-synced review panel** – totals, savings, and line items recompute instantly as selections change
+- 💾 **Real persistence** – "Save for later" round-trips through `localStorage` and restores exactly on return
+- 📱 **Responsive down to a phone** – a bespoke breakpoint schema, including a dedicated tablet-landscape layout
+- 🎨 **Pixel-matched to Figma** – spacing, radii, states, and typography verified against the source design
+- ♿ **Accessible by default** – focus-trapped modal, reduced-motion support, keyboard-navigable accordion
+
+---
+
+## 🧭 Overview
 
 The app is a two-column shopping flow: a left-hand **builder** — a 4-step accordion
 (Cameras → Plan → Sensors → Extra protection) — and a right-hand **review panel** that
@@ -15,7 +31,9 @@ copy, and the step configuration live in `/data/*.json` and are typed and loaded
 [`src/data/catalog.ts`](src/data/catalog.ts). Adding a new camera or a third plan tier is a
 JSON edit, not a component change.
 
-## Tech stack
+---
+
+## 🧰 Tech Stack
 
 | | |
 |---|---|
@@ -23,15 +41,17 @@ JSON edit, not a component change.
 | Styling | Tailwind CSS v4 (CSS-first config, no `tailwind.config.js`) |
 | State | A single `useReducer` (no external state library) |
 | Persistence | `localStorage`, defensively parsed |
-| Fonts | General Sans (Fontshare) + self-hosted Gilroy ExtraBold — see [Typography](#typography-decision) |
+| Fonts | General Sans (Fontshare) + self-hosted Gilroy ExtraBold — see [Typography](#-typography-decision) |
 | Linting | `oxlint` |
 
-No UI kit, no animation library, no CSS-in-JS — see [Architecture](#architecture) for why.
+No UI kit, no animation library, no CSS-in-JS — see [Architecture](#-architecture) for why.
 
-## Setup
+---
+
+## 📥 Setup
 
 ```bash
-git clone <https://github.com/okste1234/bundle_builder.git>
+git clone https://github.com/okste1234/bundle_builder.git
 cd bundle_builder
 npm install
 ```
@@ -59,13 +79,15 @@ npm run preview   # serve the dist/ build locally, for a final sanity check
 npm run lint       # oxlint
 ```
 
-## Architecture
+---
+
+## 🏗️ Architecture
 
 - **`data/`** — plain JSON: the product catalog (cameras/sensors/accessories), plan
   options, shipping/guarantee/financing info, the accordion step config, and the initial
   seed selections. `src/types/index.ts` defines the shape each file must conform to;
   `src/data/catalog.ts` loads and types all of it in one place.
-- **`src/state/`** — see [State management](#state-management).
+- **`src/state/`** — see [State management](#-state-management).
 - **`src/components/`** — presentational and product-agnostic: `ProductCard`,
   `VariantSelector`, `QuantityStepper`, `AccordionStep`, `PlanOptionCard`,
   `ReviewItem`/`ReviewSection`/`ReviewInfoRow`, `Price`, `Badge`. None of them import a
@@ -81,7 +103,9 @@ npm run lint       # oxlint
   `prefers-reduced-motion` override in `index.css` collapse all of it to instant when the
   user has that preference — functionality is untouched either way, only the motion is.
 
-## State management
+---
+
+## 🧠 State Management
 
 One `useReducer` (`bundleReducer.ts`) holds the entire bundle:
 
@@ -104,10 +128,12 @@ panel, and the accordion headers can never drift out of sync with each other. Th
 separate "cart" object; the review panel is a pure projection of the same state the
 product cards read and write.
 
-## Variant / quantity approach
+---
 
-This was an highlighted interaction of this assessment, so it's worth spelling out the model
-explicitly: **quantity is keyed by variant, not by product.**
+## 🎛️ Variant & Quantity Approach
+
+This was a highlighted interaction of this assessment, so it's worth spelling out the
+model explicitly: **quantity is keyed by variant, not by product.**
 
 ```
 products["wyze-cam-v4"] = {
@@ -135,7 +161,9 @@ products["wyze-cam-v4"] = {
   variant id, so the exact same stepper/selector code path handles both cases — no
   `if (hasVariants)` branching duplicated across components.
 
-## Persistence
+---
+
+## 💾 Persistence
 
 "Save my system for later" writes the full state object to `localStorage`
 (`persistence.ts`); it is **not** autosaved on every change — persistence is tied
@@ -154,7 +182,9 @@ applies at the point of hydrating from a saved payload, not as a rule enforced d
 use. The reasoning is that which panel happens to be expanded is navigation state, not part
 of "the shopper's configuration" the brief is asking to preserve.
 
-## Responsive behavior
+---
+
+## 📱 Responsive Behavior
 
 Desktop matches the Figma reference at 1440px, and the layout is designed to stay usable
 and coherent all the way down to a phone — not just "doesn't visually break."
@@ -193,7 +223,9 @@ changes width as the viewport grows, and margins absorb the difference instead. 
 outer max-width (`1440px`, matching the Figma frame) and the resulting centering margin
 grow past that.
 
-## Typography decision
+---
+
+## 🔤 Typography Decision
 
 The design specifies **Gilroy** (body/UI) and **TT Norms Pro** (Checkout button only) —
 both commercial, neither redistributable. Gilroy's free tier is Light (300) and ExtraBold
@@ -212,7 +244,9 @@ most of the UI's body text, the split is:
 - TT Norms Pro has no free tier at all; the Checkout button inherits the same General Sans
   base as everything else rather than introducing a third font for one button.
 
-## Assumptions & tradeoffs
+---
+
+## ⚖️ Assumptions & Tradeoffs
 
 - **The Figma file only shows Step 1 expanded** — Steps 2–4 never appear open in the
   source design. Their content (the plan-selection cards, the extra-protection product
@@ -231,10 +265,10 @@ most of the UI's body text, the split is:
   product.
 - **No backend.** The brief lists an API as a bonus, not a requirement, and a static JSON
   file is explicitly called out as sufficient. Adding a throwaway server here would mean
-  two things to start instead of one when a "clean clone" is intended by examiner.
-  For a bonus item the brief doesn't weight — an API only pays for itself once there's real
-  I/O it enables (auth, order writes, inventory), which is out of scope for a prototype.
-  If this catalog ever needed real backend-served images at scale, a CDN with on-the-fly
+  two things to start instead of one when a "clean clone" is intended by the examiner, for
+  a bonus item the brief doesn't weight — an API only pays for itself once there's real I/O
+  it enables (auth, order writes, inventory), which is out of scope for a prototype. If
+  this catalog ever needed real backend-served images at scale, a CDN with on-the-fly
   transforms (Cloudinary, Imgix, or similar) would be the natural next step over serving
   static files from `public/` — resizing/format-negotiating per breakpoint instead of
   shipping one fixed asset to every viewport.
@@ -242,7 +276,9 @@ most of the UI's body text, the split is:
   for touch. This matches the design's specified size exactly; enlarging it is a deliberate
   design decision to make, not a bug to silently fix, so it was left matching the spec.
 
-## Incomplete / known gaps
+---
+
+## 🚧 Incomplete & Known Gaps
 
 - No automated test suite (unit or integration) — verification for this build was done by
   direct interactive testing in a live browser (variant/quantity sync in both directions,
