@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { AccordionStep, ACCORDION_TRANSITION_MS } from './components/accordion/AccordionStep';
 import { ProductCard } from './components/product/ProductCard';
 import { PlanOptionCard } from './components/plan/PlanOptionCard';
@@ -12,55 +12,55 @@ export function BundleBuilder() {
   const { state, toggleStep, openStep, setVariant, adjustQuantity, setPlan } = useBundle();
   const reducedMotion = usePrefersReducedMotion();
   const stepRefs = useRef<Record<string, HTMLElement | null>>({});
-  // Tracks the previously-seen openStepId (not "have we rendered before") so the effect
-  // below is inherently safe to run more than once for the same step — including React
-  // Strict Mode's intentional dev-mode double-invocation of effects on mount, which a
-  // plain "isFirstRender" boolean flag doesn't survive (the ref persists across both
-  // invocations, so the flag flips to false after the first one and no longer guards
-  // anything on the second).
-  const prevOpenStepId = useRef(state.openStepId);
 
-  // When a step opens (via header click or "Next"), bring it into view — but only if its
-  // top edge isn't already sensibly positioned, so we never force an unnecessary jump.
-  // Opening one step also collapses whichever step was previously open, and both animate
-  // over ACCORDION_TRANSITION_MS — measuring immediately would read the *pre-collapse*
-  // layout (the old step still full-height), scrolling to a position that's stale the
-  // instant the collapse animation actually plays out and everything shifts up underneath
-  // it. Waiting for the transition to settle first means we measure the real, final
-  // position.
+  // When a step opens, the previously-open step's collapse can remove far more document
+  // height than what's actually visible on screen (e.g. a 5-product step on mobile, most
+  // of it already scrolled past). Since we never move the viewport ourselves, that
+  // off-screen height loss would otherwise drag everything below it — including the step
+  // that just opened — up past the viewport entirely, forcing the user to hunt for it.
   //
-  // Two deliberate choices here, both to avoid over-aggressive repositioning:
-  // - The visibility check only looks at the step's *top* edge, not whether the whole
-  //   section fits in the viewport. An opened step can legitimately be taller than the
-  //   screen (5 product cards on mobile) — requiring the entire thing to fit would treat
-  //   that as "not visible" and force a scroll every time, even when the header (the part
-  //   that actually matters for orientation) is already positioned fine.
-  // - `block: 'nearest'` instead of `block: 'start'` — `'start'` unconditionally pins the
-  //   step's top edge to the very top of the viewport, which can push its own header (and
-  //   the cards just below it) up out of view. `'nearest'` only moves the element the
-  //   minimum distance needed to bring it into a reasonable position.
-  useEffect(() => {
-    const openStepChanged = prevOpenStepId.current !== state.openStepId;
-    prevOpenStepId.current = state.openStepId;
-    if (!openStepChanged) return;
+  // This does NOT scroll to a destination the way the old scrollIntoView effect did. It
+  // continuously cancels *drift*: every frame, it measures how far the newly-open step has
+  // moved on screen purely as a side effect of the collapse animating above it, and scrolls
+  // by that same amount to hold it visually still. The step's own natural movement (from its
+  // own content unfolding) isn't part of that drift, so it's untouched — only the borrowed
+  // motion from the collapsing sibling gets cancelled. If the user starts scrolling by hand
+  // mid-transition, correction stops immediately so it never fights a real gesture.
+  useLayoutEffect(() => {
+    const anchorEl = state.openStepId ? stepRefs.current[state.openStepId] : null;
+    if (!anchorEl) return;
 
-    const delay = reducedMotion ? 0 : ACCORDION_TRANSITION_MS;
-    const timeoutId = window.setTimeout(() => {
-      const el = state.openStepId ? stepRefs.current[state.openStepId] : null;
-      if (!el) return;
+    const duration = reducedMotion ? 0 : ACCORDION_TRANSITION_MS;
+    const start = performance.now();
+    let lastTop = anchorEl.getBoundingClientRect().top;
+    let rafId = 0;
+    let userScrolled = false;
 
-      const rect = el.getBoundingClientRect();
-      const topOffset = 24;
-      const bottomOffset = 32;
-      const isAboveViewport = rect.top < topOffset;
-      const isBelowViewport = rect.top > window.innerHeight - bottomOffset;
+    const onUserScroll = () => {
+      userScrolled = true;
+    };
+    window.addEventListener('wheel', onUserScroll, { passive: true });
+    window.addEventListener('touchmove', onUserScroll, { passive: true });
 
-      if (isAboveViewport || isBelowViewport) {
-        el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest' });
+    const tick = (now: number) => {
+      if (userScrolled) return;
+
+      const currentTop = anchorEl.getBoundingClientRect().top;
+      const drift = currentTop - lastTop;
+      if (drift !== 0) window.scrollBy(0, drift);
+      lastTop = anchorEl.getBoundingClientRect().top;
+
+      if (now - start < duration) {
+        rafId = requestAnimationFrame(tick);
       }
-    }, delay);
+    };
+    rafId = requestAnimationFrame(tick);
 
-    return () => window.clearTimeout(timeoutId);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('wheel', onUserScroll);
+      window.removeEventListener('touchmove', onUserScroll);
+    };
   }, [state.openStepId, reducedMotion]);
 
   return (

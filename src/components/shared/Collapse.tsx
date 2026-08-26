@@ -22,7 +22,7 @@ export function Collapse({ open, children, className = '', durationMs = 280 }: C
       style={{
         gridTemplateRows: open ? '1fr' : '0fr',
         opacity: open ? 1 : 0,
-        transition: `grid-template-rows ${duration}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${Math.round(duration * 0.8)}ms ease-out`,
+        transition: `grid-template-rows ${duration}ms cubic-bezier(0.22, 1, 0.36, 1), opacity ${Math.round(duration * 0.8)}ms cubic-bezier(0.22, 1, 0.36, 1)`,
       }}
       aria-hidden={!open}
     >

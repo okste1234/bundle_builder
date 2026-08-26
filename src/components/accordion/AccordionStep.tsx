@@ -1,10 +1,10 @@
 import { forwardRef, type ReactNode } from 'react';
 import { Collapse } from '../shared/Collapse';
 
-// Shared with BundleBuilder's scroll-into-view effect, which needs to wait for this same
-// collapse/expand transition to finish before measuring the (settled) layout — duplicating
-// the raw number in both places would let them silently drift out of sync.
-export const ACCORDION_TRANSITION_MS = 320;
+// Single source of truth for how long the accordion's open/close collapse animation takes.
+// Also read by BundleBuilder's scroll-compensation effect, which needs to keep counteracting
+// drift for exactly as long as the collapse is actually animating.
+export const ACCORDION_TRANSITION_MS = 380;
 
 interface AccordionStepProps {
   stepId: string;
@@ -36,12 +36,10 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
   const topSpacingClass = isFirst || isOpen ? ' ' : 'mt-[6px] md:mt-[13px]';
   const roundedClass = isFirst ? 'md:rounded-[10px]' : 'md:rounded-b-[10px]';
 
-
-
   return (
     <section
       ref={ref}
-      className={`flex w-full scroll-mt-[24px] flex-col items-start ${roundedClass} transition-[background-color,padding-top,margin-top] duration-300 ease-out ${topSpacingClass} ${
+      className={`flex w-full flex-col items-start ${roundedClass} transition-[background-color] duration-300 ease-out ${topSpacingClass} ${
         isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0'
       }`}
     >
