@@ -69,33 +69,64 @@ export function BundleBuilder() {
                 ))}
               </div>
             ) : (
-            <div className="grid w-full grid-cols-1 gap-[15px] sm:grid-cols-2 sm:items-stretch">
-            {productsByCategory[step.category as ProductCategory].map((product) => (
-              <div key={product.id} className="min-w-0 sm:last:odd:col-span-2 sm:last:odd:mx-auto sm:last:odd:w-90">
-                <ProductCard
-                  product={product}
-                  selection={state.products[product.id]}
-                  onSelectVariant={(variantId) =>
-                    setVariant(product.id, variantId)
-                  }
-                  onIncrement={() =>
-                    adjustQuantity(
-                      product.id,
-                      state.products[product.id]?.selectedVariantId ?? undefined,
-                      1,
-                    )
-                  }
-                  onDecrement={() =>
-                    adjustQuantity(
-                      product.id,
-                      state.products[product.id]?.selectedVariantId ?? undefined,
-                      -1,
-                    )
-                  }
-                />
-              </div>
-            ))}
-          </div>
+            // <div className="grid w-full grid-cols-1 gap-[15px] sm:grid-cols-2 sm:items-stretch">
+            <div
+              className="
+                grid w-full grid-cols-1 gap-[15px]
+                sm:grid-cols-2 sm:items-stretch
+                lg:flex lg:flex-wrap lg:justify-center
+                xl:grid xl:grid-cols-2 xl:items-stretch
+            "
+            >
+              {productsByCategory[step.category as ProductCategory].map((product) => (
+                <div
+                  key={product.id}
+                  className="
+                    min-w-0
+
+                    sm:last:odd:col-span-2
+                    sm:last:odd:mx-auto
+                    sm:last:odd:w-90
+
+                    lg:flex-[1_1_190px]
+                    lg:max-w-56
+                    lg:first:last:max-w-none
+                    lg:first:last:flex-none
+                    lg:first:last:w-90
+                    
+
+                    xl:max-w-none
+                    xl:w-auto
+                    xl:flex-none
+                    xl:last:odd:col-span-2
+                    xl:last:odd:mx-auto
+                    xl:last:odd:w-90
+                  "
+                >
+                  <ProductCard
+                    product={product}
+                    selection={state.products[product.id]}
+                    onSelectVariant={(variantId) =>
+                      setVariant(product.id, variantId)
+                    }
+                    onIncrement={() =>
+                      adjustQuantity(
+                        product.id,
+                        state.products[product.id]?.selectedVariantId ?? undefined,
+                        1,
+                      )
+                    }
+                    onDecrement={() =>
+                      adjustQuantity(
+                        product.id,
+                        state.products[product.id]?.selectedVariantId ?? undefined,
+                        -1,
+                      )
+                    }
+                  />
+                </div>
+              ))}
+            </div>
           )}
           </AccordionStep>
         );

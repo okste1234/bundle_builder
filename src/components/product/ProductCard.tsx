@@ -44,20 +44,21 @@ export function ProductCard({
       className={[
         // Equal height is provided by the parent grid.
         'flex h-full min-h-[159px]',
-        // Keep image and content horizontally aligned.
         'items-center',
-        // Card geometry.
         'overflow-hidden rounded-[10px] bg-white p-[11px]',
-        // Smooth selection transition.
         'transition-all duration-300 ease-out',
+        
+        'lg:h-full lg:w-full lg:flex-col lg:items-stretch',
+        'xl:h-full xl:w-full xl:flex-row xl:items-center',
         // The gap changes when selected.
         isProductInBundle
           ? 'gap-[19px] border-2 border-[rgba(78,47,210,0.7)]'
           : 'gap-[13px] border-2 border-transparent',
       ].join(' ')}
     >
-      {/* Fixed image column */}
-      <div className="relative h-[137px] w-[101px] shrink-0 overflow-hidden rounded-[5px] bg-white">
+      {/* Image: fixed 101×137 portrait box in the horizontal layout; at lg it becomes a
+          full-width banner instead, same height, so text never has to share the row with it. */}
+      <div className="relative h-[137px] w-[101px] shrink-0 overflow-hidden rounded-[5px] bg-white lg:mx-auto xl:mx-0">
         <ProductImage
           key={displayImage}
           src={displayImage}
@@ -71,8 +72,8 @@ export function ProductCard({
           </Badge>
         )}
       </div>
-      
-      <div className="flex min-w-0 flex-1 flex-col justify-center gap-[10px]">
+
+      <div className="flex min-w-0 flex-1 flex-col justify-center gap-[10px] lg:w-full lg:flex-none xl:w-auto xl:flex-1">
         <div className="flex w-full flex-col items-start gap-[8px] tracking-[0.6px]">
           <h4 className="w-full text-[16px] font-semibold leading-none text-ink-soft">
             {product.name}

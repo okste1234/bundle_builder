@@ -29,7 +29,7 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
   // against the previous step's divider line, not float below a visible gap. A closed
   // step keeps the normal breathing room from whatever's above it.
   const topSpacingClass = isFirst || isOpen ? ' ' : 'mt-[6px] md:mt-[13px]';
-  const roundedClass = isFirst ? 'xl:rounded-[10px] md:rounded-t-[10px]' : 'md:rounded-b-[10px]';
+  const roundedClass = isFirst ? 'md:rounded-[10px]' : 'md:rounded-b-[10px]';
 
 
 
@@ -37,7 +37,7 @@ export const AccordionStep = forwardRef<HTMLElement, AccordionStepProps>(functio
     <section
       ref={ref}
       className={`flex w-full scroll-mt-[24px] flex-col items-start ${roundedClass} transition-[background-color,padding-top,margin-top] duration-300 ease-out ${topSpacingClass} ${
-        isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0'
+        isOpen ? 'bg-surface-tint pt-[15px]' : 'bg-transparent pt-0 md'
       }`}
     >
       <div className="flex w-full items-center justify-center px-[15px]">

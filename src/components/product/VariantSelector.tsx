@@ -9,7 +9,7 @@ interface VariantSelectorProps {
 
 export function VariantSelector({ productName, variants, selectedId, onSelect }: VariantSelectorProps) {
   return (
-    <div role="radiogroup" aria-label={`${productName} color`} className="flex items-end gap-[6px]">
+    <div role="radiogroup" aria-label={`${productName} color`} className="flex items-end gap-[6px] flex-wrap">
       {variants.map((variant) => {
         const isSelected = variant.id === selectedId;
         return (
@@ -19,7 +19,7 @@ export function VariantSelector({ productName, variants, selectedId, onSelect }:
             role="radio"
             aria-checked={isSelected}
             onClick={() => onSelect(variant.id)}
-            className={`flex h-[26px] items-center justify-center gap-[4px] rounded-[2px] px-[5px] py-px transition-all duration-200 ease-out active:scale-95 ${
+            className={`flex h-[26px] shrink-0 items-center justify-center gap-[4px] rounded-[2px] px-[5px] py-px transition-all duration-200 ease-out active:scale-95 ${
               isSelected
                 ? 'border-[0.5px] border-brand-teal bg-[rgba(29,240,187,0.04)] px-[3px]'
                 : 'border-[0.5px] border-[#ccc] bg-white'
