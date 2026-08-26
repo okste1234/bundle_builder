@@ -12,7 +12,7 @@ interface CollapseProps {
  *  works with genuinely dynamic content height (no JS measurement, no layout thrash) via
  *  the `grid-template-rows: 0fr → 1fr` technique. Content stays mounted at all times so
  *  React never has to remount it — only the transition state changes. */
-export function Collapse({ open, children, className = '', durationMs = 280 }: CollapseProps) {
+export function Collapse({ open, children, className = '', durationMs = 380 }: CollapseProps) {
   const reducedMotion = usePrefersReducedMotion();
   const duration = reducedMotion ? 0 : durationMs;
 
