@@ -58,16 +58,21 @@ export function ProductCard({
     >
       {/* Image: fixed 101×137 portrait box in the horizontal layout; at lg it becomes a
           full-width banner instead, same height, so text never has to share the row with it. */}
-      <div className="relative h-[137px] w-[101px] shrink-0 overflow-hidden rounded-[5px] bg-white lg:mx-auto xl:mx-0">
-        <ProductImage
-          key={displayImage}
-          src={displayImage}
-          alt={product.name}
-          className="size-full animate-fade-in object-contain"
-        />
+      <div className="relative w-[101px] shrink-0 lg:mx-auto xl:mx-0">
+        <div className="relative h-[137px] w-[101px] overflow-hidden rounded-[5px] bg-white">
+          <ProductImage
+            key={displayImage}
+            src={displayImage}
+            alt={product.name}
+            className="size-full animate-fade-in object-contain"
+          />
+        </div>
 
         {product.discountLabel && (
-          <Badge tone="discount" className="absolute left-0 top-0">
+          <Badge
+            tone="discount"
+            className="absolute left-0 top-0 lg:left-[calc((101px-180px)/2)] xl:left-0"
+          >
             {product.discountLabel}
           </Badge>
         )}
