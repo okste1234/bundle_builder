@@ -108,7 +108,8 @@ npm run lint       # oxlint
   reflow. `BundleBuilder.tsx` runs a short `requestAnimationFrame` loop that cancels exactly
   that borrowed drift frame-by-frame, and bails out the instant the user starts scrolling by
   hand, so the interaction still reads as "the page rearranged itself" rather than "the page
-  scrolled me somewhere."
+  scrolled me somewhere.THIS WAS INTENTIONALLY DONE, as I do not want the `scrollIntoView` 
+  snap behaviour on some devices/browsers, and required to manipulate that for this simple build"
 
 ---
 
