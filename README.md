@@ -110,7 +110,7 @@ npm run lint       # oxlint
   the user starts scrolling by hand or touch, so the interaction still reads as 
   "the page rearranged itself" rather than "the page scrolled me somewhere.
   THIS WAS INTENTIONALLY DONE, as I do not want the `scrollIntoView` snap behaviour on 
-  some devices/browsers, and be required to manipulate that for this simple build"
+  some devices/browsers, and be required to manipulate that for this simple build".
 
 ---
 
